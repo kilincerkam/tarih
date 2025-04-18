@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bölge Seçmeli Oyun</title>
+    <style>
+        canvas { border: 1px solid black; }
+        #info { margin: 20px; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="info"></div>
+
+<script>
+const groups = {
+    A: { color: "green", score: 0 },
+    B: { color: "blue", score: 0 },
+    C: { color: "red", score: 0 },
+    D: { color: "yellow", score: 0 }
+};
+
+const bolgeKonfig = [
+    { isim: "İstanbul", row: 0, col: 0 }, { isim: "İzmir", row: 1, col: 0 }, { isim: "Muğla", row: 2, col: 0 },
+    { isim: "Sinop", row: 0, col: 1 }, { isim: "Ankara", row: 1, col: 1 }, { isim: "Antalya", row: 2, col: 1 },
+    { isim: "Trabzon", row: 0, col: 2 }, { isim: "Sivas", row: 1, col: 2 }, { isim: "Hatay", row: 2, col: 2 },
+    { isim: "Kars", row: 0, col: 3 }, { isim: "Diyarbakır", row: 1, col: 3 }, { isim: "Hakkari", row: 2, col: 3 }
+];
+
+let bolgeSahipleri = Array(12).fill(null);
+let currentQuestion = 1;
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const infoDiv = document.getElementById('info');
+
+const bolgeKoordinatlari = bolgeKonfig.map(b => ({
+    x: 150 + (b.col * 200),
+    y: 150 + (b.row * 150),
+    isim: b.isim
+}));
+
+function drawMap() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    bolgeKoordinatlari.forEach((bolge, index) => {
+        ctx.fillStyle = bolgeSahipleri[index] ? groups[bolgeSahipleri[index]].color : "white";
+        ctx.beginPath();
+        ctx.arc(bolge.x, bolge.y, 40, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        
+        ctx.fillStyle = "black";
+        ctx.font = "14px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(bolge.isim, bolge.x, bolge.y + 60);
+        ctx.font = "20px Arial";
+        ctx.fillText(index + 1, bolge.x, bolge.y + 5);
+    });
+}
+
+async function startConquestStage() {
+    if(currentQuestion > 12) {
+        startChallengeStage();
+        return;
+    }
+
+    const correctGroups = prompt(
+        `Soru ${currentQuestion}: Türkiye'nin başkenti neresidir?\n` +
+        `Doğru bilen gruplar (A,B,C,D formatında):`
+    ).toUpperCase().split(',').map(g => g.trim());
+
+    for(const group of correctGroups) {
+        if(!groups[group]) continue;
+        
+        let selectedRegion;
+        while(true) {
+            selectedRegion = parseInt(prompt(
+                `${group} Grubu - Hangi bölgeyi almak istiyorsunuz? (1-12)\n` +
+                `Kalan boş bölgeler: ${getEmptyRegions().map(r => r+1).join(', ')}`
+            )) - 1;
+
+            if(selectedRegion >= 0 && selectedRegion < 12 && 
+               !bolgeSahipleri[selectedRegion]) break;
+            
+            alert("Geçersiz bölge numarası! Lütfen boş bir bölge seçin.");
+        }
+        
+        bolgeSahipleri[selectedRegion] = group;
+        groups[group].score += 100;
+        drawMap();
+    }
+
+    currentQuestion++;
+    
+    if(bolgeSahipleri.includes(null)) {
+        startConquestStage();
+    } else {
+        startChallengeStage();
+    }
+}
+
+function getEmptyRegions() {
+    return bolgeSahipleri
+        .map((owner, index) => owner === null ? index : -1)
+        .filter(index => index !== -1);
+}
+
+function startChallengeStage() {
+    const activeGroups = Object.keys(groups).filter(g => 
+        bolgeSahipleri.some(b => b === g)
+    );
+    
+    if(activeGroups.length === 1) {
+        endGame(activeGroups[0]);
+        return;
+    }
+    
+    const [g1, g2] = activeGroups;
+    const answer = prompt(
+        `${g1} vs ${g2} - Meydan Okuma!\n` +
+        "Kazanan grup hangisi? (Grup harfini yazın):"
+    ).toUpperCase().trim();
+    
+    if(answer === g1 || answer === g2) {
+        handleChallengeResult(answer, answer === g1 ? g2 : g1);
+    } else {
+        startChallengeStage();
+    }
+}
+
+function handleChallengeResult(winner, loser) {
+    const loserRegions = bolgeSahipleri
+        .map((b, i) => b === loser ? i : -1)
+        .filter(i => i !== -1);
+    
+    if(loserRegions.length > 0) {
+        const randomIndex = loserRegions[Math.floor(Math.random() * loserRegions.length)];
+        bolgeSahipleri[randomIndex] = winner;
+        groups[winner].score += 50;
+    }
+    
+    drawMap();
+    startChallengeStage();
+}
+
+function endGame(winner) {
+    infoDiv.innerHTML = `🏆 KAZANAN: ${winner} GRUBU! 🎉`;
+    alert("Oyun bitti! Kazanan: " + winner + " Grubu!");
+}
+
+drawMap();
+startConquestStage();
+</script>
+</body>
+</html>
