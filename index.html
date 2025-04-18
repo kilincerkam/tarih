@@ -1,156 +1,527 @@
 <!DOCTYPE html>
-<html>
+<html  >
 <head>
-    <title>Bölge Seçmeli Oyun</title>
-    <style>
-        canvas { border: 1px solid black; }
-        #info { margin: 20px; padding: 10px; background: #f0f0f0; }
-    </style>
+  <!-- Site made with Mobirise Website Builder v6.0.1, https://mobirise.com -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v6.0.1, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="assets/images/shop3.jpg" type="image/x-icon">
+  <meta name="description" content="">
+  
+  
+  <title>Home</title>
+  <link rel="stylesheet" href="assets/web/assets/mobirise-icons2/mobirise2.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets/dropdown/css/style.css">
+  <link rel="stylesheet" href="assets/socicon/css/styles.css">
+  <link rel="stylesheet" href="assets/theme/css/style.css">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap&display=swap"></noscript>
+  <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css?v=NOmmLz"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css?v=NOmmLz" type="text/css">
+
+  
+  
+  
 </head>
 <body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
-    <div id="info"></div>
+  
+  <section data-bs-version="5.1" class="menu menu5 cid-uIJ3YZJoRp" once="menu" id="menu05-d">
+	
 
-<script>
-const groups = {
-    A: { color: "green", score: 0 },
-    B: { color: "blue", score: 0 },
-    C: { color: "red", score: 0 },
-    D: { color: "yellow", score: 0 }
-};
+	<nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+		<div class="container">
+			<div class="navbar-brand">
+				<span class="navbar-logo">
+					<a href="https://mobiri.se">
+						<img src="assets/images/shop3.jpg" alt="Mobirise Website Builder" style="height: 4.3rem;">
+					</a>
+				</span>
+				<span class="navbar-caption-wrap"><a class="navbar-caption text-black display-4" href="https://mobiri.se">Mobirise</a></span>
+			</div>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<div class="hamburger">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
+					<li class="nav-item">
+						<a class="nav-link link text-black display-4" href="https://mobiri.se">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link link text-black display-4" href="https://mobiri.se" aria-expanded="false">Services</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link link text-black display-4" href="https://mobiri.se">Contacts</a>
+					</li>
+				</ul>
+				<div class="navbar-buttons mbr-section-btn">
+					<a class="btn btn-primary display-4" href="https://mobiri.se"> Start Now!</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+</section>
 
-const bolgeKonfig = [
-    { isim: "İstanbul", row: 0, col: 0 }, { isim: "İzmir", row: 1, col: 0 }, { isim: "Muğla", row: 2, col: 0 },
-    { isim: "Sinop", row: 0, col: 1 }, { isim: "Ankara", row: 1, col: 1 }, { isim: "Antalya", row: 2, col: 1 },
-    { isim: "Trabzon", row: 0, col: 2 }, { isim: "Sivas", row: 1, col: 2 }, { isim: "Hatay", row: 2, col: 2 },
-    { isim: "Kars", row: 0, col: 3 }, { isim: "Diyarbakır", row: 1, col: 3 }, { isim: "Hakkari", row: 2, col: 3 }
-];
+<section data-bs-version="5.1" class="header18 cid-uIJ3XnOxR4" data-bg-video="https://www.youtube.com/watch?v=2Gg6Seob5Mg" id="header18-c">
+  
 
-let bolgeSahipleri = Array(12).fill(null);
-let currentQuestion = 1;
-
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-const infoDiv = document.getElementById('info');
-
-const bolgeKoordinatlari = bolgeKonfig.map(b => ({
-    x: 150 + (b.col * 200),
-    y: 150 + (b.row * 150),
-    isim: b.isim
-}));
-
-function drawMap() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    bolgeKoordinatlari.forEach((bolge, index) => {
-        ctx.fillStyle = bolgeSahipleri[index] ? groups[bolgeSahipleri[index]].color : "white";
-        ctx.beginPath();
-        ctx.arc(bolge.x, bolge.y, 40, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = "black";
-        ctx.stroke();
+  <div class="mbr-overlay" style="opacity: 0.5; background-color: rgb(0, 0, 0);"></div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="content-wrap col-12 col-md-12">
+        <h1 class="mbr-section-title mbr-fonts-style mbr-white mb-4 display-1">
+          <strong><br>Video background</strong>
+        </h1>
         
-        ctx.fillStyle = "black";
-        ctx.font = "14px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText(bolge.isim, bolge.x, bolge.y + 60);
-        ctx.font = "20px Arial";
-        ctx.fillText(index + 1, bolge.x, bolge.y + 5);
-    });
-}
+        <p class="mbr-fonts-style mbr-text mbr-white mb-4 display-7">Full-width block with YouTube video background and flexible
+          configuration, free vertical and horizontal
+          content alignment.&nbsp;</p>
+        <div class="mbr-section-btn"><a class="btn btn-white-outline display-7" href="https://mobiri.se">Learn More</a></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-async function startConquestStage() {
-    if(currentQuestion > 12) {
-        startChallengeStage();
-        return;
-    }
+<section data-bs-version="5.1" class="image03 cid-uIJ4cZzfv0" id="image04-f">
+    
 
-    const correctGroups = prompt(
-        `Soru ${currentQuestion}: Türkiye'nin başkenti neresidir?\n` +
-        `Doğru bilen gruplar (A,B,C,D formatında):`
-    ).toUpperCase().split(',').map(g => g.trim());
-
-    for(const group of correctGroups) {
-        if(!groups[group]) continue;
+    <div class="image-block m-auto">
+        <img src="assets/images/mbr.jpg" alt="Mobirise">
         
-        let selectedRegion;
-        while(true) {
-            selectedRegion = parseInt(prompt(
-                `${group} Grubu - Hangi bölgeyi almak istiyorsunuz? (1-12)\n` +
-                `Kalan boş bölgeler: ${getEmptyRegions().map(r => r+1).join(', ')}`
-            )) - 1;
+    </div>
+</section>
 
-            if(selectedRegion >= 0 && selectedRegion < 12 && 
-               !bolgeSahipleri[selectedRegion]) break;
-            
-            alert("Geçersiz bölge numarası! Lütfen boş bir bölge seçin.");
-        }
+<section data-bs-version="5.1" class="features15 cid-uIJ45czeXp" id="features015-e">
+	
+
+	
+	
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 content-head">
+				<div class="mbr-section-head mb-5">
+					<h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+						<strong>Features</strong>
+					</h4>
+					
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="item features-without-image col-12 col-lg-4 active">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop1.jpg" alt="Mobirise Website Builder">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>Offline editing</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+							<div>Create and edit websites without internet.</div>
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="item features-without-image col-12 col-lg-4">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop2.jpg" alt="Mobirise Website Builder" data-slide-to="1" data-bs-slide-to="1">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>Responsive design</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+							Websites look great on all devices.
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="item features-without-image col-12 col-lg-4">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop3.jpg" alt="Mobirise Website Builder" data-bs-slide-to="2" data-slide-to="2">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>Blogging</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+							Write and publish blog posts, share your thoughts.
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="item features-without-image col-12 col-lg-4">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop4.jpg" alt="Mobirise Website Builder" data-slide-to="3" data-bs-slide-to="3">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>SEO optimization</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+							Websites optimized for search engines.
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="item features-without-image col-12 col-lg-4">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop6.jpg" alt="Mobirise Website Builder" data-bs-slide-to="4" data-slide-to="4">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>Analytics</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+							Track website traffic and user behavior.
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="item features-without-image col-12 col-lg-4">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop5.jpg" alt="Mobirise Website Builder" data-slide-to="5" data-bs-slide-to="5">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>eCommerce</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+							Create online stores easily, without coding knowledge.
+						</h5>
+					</div>
+				</div>
+			</div>
+
+			<div class="item features-without-image col-12 col-lg-4">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop3.jpg" alt="Mobirise Website Builder" data-bs-slide-to="6" data-slide-to="6">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>Large community</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+							Active community of users and developers.
+						</h5>
+					</div>
+				</div>
+			</div>
+			<div class="item features-without-image col-12 col-lg-4">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop1.jpg" alt="Mobirise Website Builder" data-bs-slide-to="7" data-slide-to="7">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>Security</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+						  Websites built with security in mind.</h5>
+					</div>
+				</div>
+			</div>
+			<div class="item features-without-image col-12 col-lg-4">
+				<div class="item-wrapper">
+					<div class="img-wrapper">
+						<img src="assets/images/shop2.jpg" alt="Mobirise Website Builder" data-bs-slide-to="8" data-slide-to="8">
+					</div>
+					<div class="card-box">
+						<h4 class="card-title mbr-fonts-style mb-0 display-7">
+							<strong>Extensions</strong>
+						</h4>
+						<h5 class="card-text mbr-fonts-style mt-3 display-7">
+							Add new features and functionality.
+						</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section data-bs-version="5.1" class="clients2 cid-uIJ4mk2mww" id="clients02-g">
+  
+
+  
+  
+  <div class="container-fluid">
+    <div class="row justify-content-center mb-5">
+      <div class="col-12 content-head">
+        <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+          <strong>Magic makers</strong>
+        </h3>
         
-        bolgeSahipleri[selectedRegion] = group;
-        groups[group].score += 100;
-        drawMap();
-    }
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-sm-6 card col-lg-3">
+        <div class="card-wrap card1">
+          <div class="content-wrap">
+            <div class="mbr-section-btn card-btn align-center">
+              <a class="btn btn-white display-7" href="https://mobiri.se"><span class="socicon socicon-instagram mbr-iconfont mbr-iconfont-btn"></span>/profilelink</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    currentQuestion++;
-    
-    if(bolgeSahipleri.includes(null)) {
-        startConquestStage();
-    } else {
-        startChallengeStage();
-    }
-}
+      <div class="col-sm-6 card col-lg-3">
+        <div class="card-wrap card2">
+          <div class="content-wrap">
+            <div class="mbr-section-btn card-btn align-center">
+              <a class="btn btn-white display-7" href="https://mobiri.se"><span class="socicon socicon-instagram mbr-iconfont mbr-iconfont-btn"></span>/profilelink</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-function getEmptyRegions() {
-    return bolgeSahipleri
-        .map((owner, index) => owner === null ? index : -1)
-        .filter(index => index !== -1);
-}
+      <div class="col-sm-6 card col-lg-3">
+        <div class="card-wrap card3">
+          <div class="content-wrap">
+            <div class="mbr-section-btn card-btn align-center">
+              <a class="btn btn-white display-7" href="https://mobiri.se"><span class="socicon socicon-instagram mbr-iconfont mbr-iconfont-btn"></span>/profilelink</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
-function startChallengeStage() {
-    const activeGroups = Object.keys(groups).filter(g => 
-        bolgeSahipleri.some(b => b === g)
-    );
-    
-    if(activeGroups.length === 1) {
-        endGame(activeGroups[0]);
-        return;
-    }
-    
-    const [g1, g2] = activeGroups;
-    const answer = prompt(
-        `${g1} vs ${g2} - Meydan Okuma!\n` +
-        "Kazanan grup hangisi? (Grup harfini yazın):"
-    ).toUpperCase().trim();
-    
-    if(answer === g1 || answer === g2) {
-        handleChallengeResult(answer, answer === g1 ? g2 : g1);
-    } else {
-        startChallengeStage();
-    }
-}
+      <div class="col-sm-6 card col-lg-3">
+        <div class="card-wrap card4">
+          <div class="content-wrap">
+            <div class="mbr-section-btn card-btn align-center">
+              <a class="btn btn-white display-7" href="https://mobiri.se"><span class="socicon socicon-instagram mbr-iconfont mbr-iconfont-btn"></span>/profilelink</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-function handleChallengeResult(winner, loser) {
-    const loserRegions = bolgeSahipleri
-        .map((b, i) => b === loser ? i : -1)
-        .filter(i => i !== -1);
-    
-    if(loserRegions.length > 0) {
-        const randomIndex = loserRegions[Math.floor(Math.random() * loserRegions.length)];
-        bolgeSahipleri[randomIndex] = winner;
-        groups[winner].score += 50;
-    }
-    
-    drawMap();
-    startChallengeStage();
-}
+<section data-bs-version="5.1" class="contacts02 map1 cid-uIJ4vouAo3" id="contacts02-h">
 
-function endGame(winner) {
-    infoDiv.innerHTML = `🏆 KAZANAN: ${winner} GRUBU! 🎉`;
-    alert("Oyun bitti! Kazanan: " + winner + " Grubu!");
-}
+    
 
-drawMap();
-startConquestStage();
-</script>
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 content-head">
+                <div class="mbr-section-head mb-5">
+                    <h3 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                        <strong>Contacts</strong>
+                    </h3>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="card col-12 col-md-12 col-lg-6">
+                <div class="card-wrapper">
+                    <div class="text-wrapper">
+                        <h5 class="cardTitle mbr-fonts-style mb-2 display-5">
+                            <strong>Contact Us</strong>
+                        </h5>
+                        <ul class="list mbr-fonts-style display-7">
+                            <li class="mbr-text item-wrap">Phone: <a href="tel:+12345678910" class="text-primary">0 (800) 123 45
+                                    67</a></li>
+                            <li class="mbr-text item-wrap">WhatsApp: <a href="tel:+12345678910" class="text-primary">0 (800) 123
+                                    45 67</a></li>
+                            <li class="mbr-text item-wrap">Email: <a href="mailto:info@site.com" class="text-primary">info@site.com</a></li>
+                            <li class="mbr-text item-wrap">Address: 350 5th Ave, New York, NY 10118</li>
+                            <li class="mbr-text item-wrap">Working hours: 9:00AM - 6:00PM</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="map-wrapper col-md-12 col-lg-6">
+                <div class="google-map"><iframe frameborder="0" style="border:0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6045.3003145248895!2d-73.9884657!3d40.7477229!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9ac1f1b85%3A0x7e33d1c0e7af3be4!2zMzUwIDV0aCBBdmUsIE5ldyBZb3JrLCBOWSAxMDExOCwg0KHQqNCQ!5e0!3m2!1sru!2sru!4v1689597362021!5m2!1sen!2sen" allowfullscreen=""></iframe></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-bs-version="5.1" class="list1 cid-uIJ2Q3XciI" id="list01-7">	
+    
+	
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-12 col-lg-10 m-auto">
+				<div class="content">
+					<div class="row justify-content-center mb-5">
+						<div class="col-12 content-head">
+							<div class="mbr-section-head">
+								<h4 class="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+									<strong>Got Questions?</strong>
+								</h4>
+								
+							</div>
+						</div>
+					</div>
+					<div id="bootstrap-accordion_7" class="panel-group accordionStyles accordion" role="tablist" aria-multiselectable="true">
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<a role="button" class="panel-title collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-core="" href="#collapse1_7" aria-expanded="false" aria-controls="collapse1">
+									<h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-5">
+										How much does delivery cost?
+									</h6>
+									<span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+								</a>
+							</div>
+							<div id="collapse1_7" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion" data-bs-parent="#bootstrap-accordion_7">
+								<div class="panel-body">
+									<p class="mbr-fonts-style panel-text display-7">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum
+										laoreet tincidunt. Proin et sapien scelerisque, ornare lectus eget, iaculis
+										lectus. Pellentesque viverra molestie tortor. Nunc sed interdum est, in maximus
+										diam. Donec eu tellus dictum, gravida velit et, sagittis arcu. Proin et lectus
+										dapibus. Cras fringilla elit velit placerat tortor mollis cursus.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<a role="button" class="panel-title collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-core="" href="#collapse2_7" aria-expanded="false" aria-controls="collapse2">
+									<h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-5">
+										What is the estimated delivery time?
+									</h6>
+									<span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+								</a>
+							</div>
+							<div id="collapse2_7" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion" data-bs-parent="#bootstrap-accordion_7">
+								<div class="panel-body">
+									<p class="mbr-fonts-style panel-text display-7">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum
+										laoreet tincidunt. Proin et sapien scelerisque, ornare lectus eget, iaculis
+										lectus. Pellentesque viverra molestie tortor. Nunc sed interdum est, in maximus
+										diam. Donec eu tellus dictum, gravida velit et, sagittis arcu. Proin et lectus
+										dapibus. Cras fringilla elit velit placerat tortor mollis cursus.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<a role="button" class="panel-title collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-core="" href="#collapse3_7" aria-expanded="false" aria-controls="collapse3">
+									<h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-5">
+										Do you offer same-day delivery?
+									</h6>
+									<span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+								</a>
+							</div>
+							<div id="collapse3_7" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion" data-bs-parent="#bootstrap-accordion_7">
+								<div class="panel-body">
+									<p class="mbr-fonts-style panel-text display-7">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum
+										laoreet tincidunt. Proin et sapien scelerisque, ornare lectus eget, iaculis
+										lectus. Pellentesque viverra molestie tortor. Nunc sed interdum est, in maximus
+										diam. Donec eu tellus dictum, gravida velit et, sagittis arcu. Proin et lectus
+										dapibus. Cras fringilla elit velit placerat tortor mollis cursus.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<a role="button" class="panel-title collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-core="" href="#collapse4_7" aria-expanded="false" aria-controls="collapse4">
+									<h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-5">
+										Can I track my delivery order?
+									</h6>
+									<span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+								</a>
+							</div>
+							<div id="collapse4_7" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion" data-bs-parent="#bootstrap-accordion_7">
+								<div class="panel-body">
+									<p class="mbr-fonts-style panel-text display-7">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum
+										laoreet tincidunt. Proin et sapien scelerisque, ornare lectus eget, iaculis
+										lectus. Pellentesque viverra molestie tortor. Nunc sed interdum est, in maximus
+										diam. Donec eu tellus dictum, gravida velit et, sagittis arcu. Proin et lectus
+										dapibus. Cras fringilla elit velit placerat tortor mollis cursus.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<a role="button" class="panel-title collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-core="" href="#collapse5_7" aria-expanded="false" aria-controls="collapse5">
+									<h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-5">
+										What areas do you deliver to?
+									</h6>
+									<span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+								</a>
+							</div>
+							<div id="collapse5_7" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion" data-bs-parent="#bootstrap-accordion_7">
+								<div class="panel-body">
+									<p class="mbr-fonts-style panel-text display-7">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum
+										laoreet tincidunt. Proin et sapien scelerisque, ornare lectus eget, iaculis
+										lectus. Pellentesque viverra molestie tortor. Nunc sed interdum est, in maximus
+										diam. Donec eu tellus dictum, gravida velit et, sagittis arcu. Proin et lectus
+										dapibus. Cras fringilla elit velit placerat tortor mollis cursus.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" role="tab" id="headingOne">
+								<a role="button" class="panel-title collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-core="" href="#collapse6_7" aria-expanded="false" aria-controls="collapse6">
+									<h6 class="panel-title-edit mbr-semibold mbr-fonts-style mb-0 display-5">
+										Is there a minimum order requirement for delivery?
+									</h6>
+									<span class="sign mbr-iconfont mobi-mbri-arrow-down"></span>
+								</a>
+							</div>
+							<div id="collapse6_7" class="panel-collapse noScroll collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion" data-bs-parent="#bootstrap-accordion_7">
+								<div class="panel-body">
+									<p class="mbr-fonts-style panel-text display-7">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vestibulum
+										laoreet tincidunt. Proin et sapien scelerisque, ornare lectus eget, iaculis
+										lectus. Pellentesque viverra molestie tortor. Nunc sed interdum est, in maximus
+										diam. Donec eu tellus dictum, gravida velit et, sagittis arcu. Proin et lectus
+										dapibus. Cras fringilla elit velit placerat tortor mollis cursus.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section data-bs-version="5.1" class="footer4 cid-uIJ4ydFCjU" once="footers" id="footer04-i">
+
+    
+
+    
+
+    <div class="container">
+        <div class="media-container-row align-center mbr-white">
+            <div class="col-12">
+                <p class="mbr-text mb-0 mbr-fonts-style display-7">
+                    © Copyright 2025 Mobirise - All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </div>
+</section><section class="display-7" style="padding: 0;align-items: center;justify-content: center;flex-wrap: wrap;    align-content: center;display: flex;position: relative;height: 4rem;"><a href="https://mobiri.se/3947166" style="flex: 1 1;height: 4rem;position: absolute;width: 100%;z-index: 1;"><img alt="" style="height: 4rem;" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="></a><p style="margin: 0;text-align: center;" class="display-7">&#8204;</p><a style="z-index:1" href="https://mobirise.com/drag-drop-website-builder.html">Drag & Drop Website Builder</a></section><script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>  <script src="assets/smoothscroll/smooth-scroll.js"></script>  <script src="assets/ytplayer/index.js"></script>  <script src="assets/dropdown/js/navbar-dropdown.js"></script>  <script src="assets/vimeoplayer/player.js"></script>  <script src="assets/mbr-switch-arrow/mbr-switch-arrow.js"></script>  <script src="assets/theme/js/script.js"></script>  
+  
+  
 </body>
 </html>
